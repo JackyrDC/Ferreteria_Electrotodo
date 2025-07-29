@@ -99,7 +99,7 @@ interface CreateVenta{
        numero_factura: string;
     fecha: Date;
     subtotal: number;
-    iva:number;
+    iva: number;
     descuento: number;
     total: number;
     estado: EstadoVenta;
