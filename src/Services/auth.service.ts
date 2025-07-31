@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import "dotenv/config";
 import type { Users, CreateUsers } from "../Types/types";
 
-const apiUrl = process.env.API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Interfaces para las respuestas de la API
 interface LoginResponse {
@@ -29,8 +28,15 @@ export const login = async (email: string, password: string): Promise<LoginRespo
       password,
     });
     return response.data;
-  } catch (error: any) {
-    const apiError: ApiError = error.response ? error.response.data : { message: error.message };
+  } catch (error: unknown) {
+    let apiError: ApiError;
+    if (axios.isAxiosError(error) && error.response) {
+      apiError = error.response.data;
+    } else if (error instanceof Error) {
+      apiError = { message: error.message };
+    } else {
+      apiError = { message: "An unknown error occurred" };
+    }
     throw apiError;
   }
 };
@@ -39,8 +45,15 @@ export const register = async (userData: CreateUsers): Promise<RegisterResponse>
   try {
     const response: AxiosResponse<RegisterResponse> = await axios.post(`${apiUrl}/auth/register`, userData);
     return response.data;
-  } catch (error: any) {
-    const apiError: ApiError = error.response ? error.response.data : { message: error.message };
+  } catch (error: unknown) {
+    let apiError: ApiError;
+    if (axios.isAxiosError(error) && error.response) {
+      apiError = error.response.data;
+    } else if (error instanceof Error) {
+      apiError = { message: error.message };
+    } else {
+      apiError = { message: "An unknown error occurred" };
+    }
     throw apiError;
   }
 };
