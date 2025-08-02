@@ -175,23 +175,31 @@ interface MovimientoCaja{
     fecha: Date;
 }
 
-export type{
-   EstadoCivil,
-    Estado,
-    EstadoVenta,
-    Persona,
-    Users,
-    CreateUsers,
-    Producto,
-    AgregarProducto,
-    Venta,
-    CreateVenta,
-    CrearDetalleVenta,
-    DetalleVenta,
-    Cliente,
-    nuevaOrdenCompra,
-    ordenCompraDetalle,
-    CrearOrdenCompraDetalle,
-    ConfiguracionCaja,
-    MovimientoCaja
+// Interfaz para errores de la aplicación
+export interface AppError {
+  message: string;
+  code?: string;
+  details?: string;
 }
+
+export type {
+   EstadoCivil,
+     Estado,
+     EstadoVenta,
+     Persona,
+     Users,
+     CreateUsers,
+     Producto,
+     AgregarProducto,
+     Venta,
+     CreateVenta,
+     CrearDetalleVenta,
+     DetalleVenta,
+     Cliente,
+     nuevaOrdenCompra,
+     ordenCompraDetalle,
+     CrearOrdenCompraDetalle,
+     ConfiguracionCaja,
+     MovimientoCaja,
+     CategoriaProducto
+ }
