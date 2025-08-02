@@ -22,7 +22,7 @@ export type SaleData = {
 
 // Crear venta
 export async function createSale(data: SaleData) {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sIjoiYWRtaW4iLCJpYXQiOjE3NTQwMzc5NDYsImV4cCI6MTc1NDA2Njc0Nn0.qs8U2V3pmbgUesK7xPOjQumS-GTZQM86zJkVVGLQT_s"; // ⚠️ temporal solo para pruebas
+  const token = localStorage.token
 
   const response = await fetch(API_URL, {
     method: 'POST',
