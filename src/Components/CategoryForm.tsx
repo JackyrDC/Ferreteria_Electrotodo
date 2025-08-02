@@ -91,7 +91,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ onSubmit, isLoading 
                  : "border-gray-300 focus:ring-[#D71B07] focus:border-[#D71B07]"
              } text-gray-900 text-sm rounded-lg block w-full p-2.5`}
             placeholder="Ej: CAT001"
-            maxLength={10}
+            maxLength={50}
           />
           {errors.categoria_id && (
             <p className="mt-2 text-sm text-red-600">
