@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { ProductForm } from '../Components/ProductForm';
 import { createProduct } from '../Services/product.service';
 
+// Componente para el registro de productos
 export const ProductRegister: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // Función para manejar el envío del formulario
   const handleSubmit = async (productData: FormData) => {
     setIsLoading(true);
     setMessage(null);
 
+    // Intento de crear el producto
     try {
       const response = await createProduct(productData);
       
+      // Si el producto se crea correctamente, se muestra un mensaje de éxito
       if (response.data) {
         setMessage({
           type: 'success',
           text: `Producto "${productData.get('nombre')}" creado exitosamente con código: ${productData.get('codigo')}`
         });
       } else {
+        // Si el producto no se crea correctamente, se muestra un mensaje de error
         setMessage({
           type: 'error',
           text: response.mensaje || 'Error al crear el producto'
@@ -36,15 +41,18 @@ export const ProductRegister: React.FC = () => {
         }
       }
       
+      // Se muestra un mensaje de error
       setMessage({
         type: 'error',
         text: errorMessage
       });
     } finally {
+      // Se desactiva el estado de carga
       setIsLoading(false);
     }
   };
 
+  // Renderizado del formulario
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-4xl mx-auto px-4">

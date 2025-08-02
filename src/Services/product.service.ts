@@ -1,9 +1,9 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import { handleApiError, getApiBaseUrl, type ApiError } from "./utils";
-import type { Producto, AgregarProducto } from "../Types/types";
+import { handleApiError, getApiBaseUrl } from "./utils";
+import type { Producto } from "../Types/types";
 
-// Interfaces para las respuestas de la API
+// Interfaces para las respuestas de la API (Producto)
 interface ProductResponse {
   mensaje: string;
   data?: Producto;
@@ -11,6 +11,7 @@ interface ProductResponse {
   error?: string;
 }
 
+// Interfaces para las respuestas de la API (Productos)
 interface ProductsResponse {
   mensaje: string;
   data?: Producto[];
@@ -18,8 +19,10 @@ interface ProductsResponse {
   error?: string;
 }
 
+// URL de la API
 const apiUrl = getApiBaseUrl();
 
+// Función para crear un producto
 export const createProduct = async (productData: FormData): Promise<ProductResponse> => {
   try {
     const response: AxiosResponse<ProductResponse> = await axios.post(`${apiUrl}/producto/crear`, productData, {
@@ -33,6 +36,7 @@ export const createProduct = async (productData: FormData): Promise<ProductRespo
   }
 };
 
+// Función para obtener todos los productos
 export const getAllProducts = async (): Promise<ProductsResponse> => {
   try {
     const response: AxiosResponse<ProductsResponse> = await axios.get(`${apiUrl}/producto/listar`);
@@ -42,6 +46,7 @@ export const getAllProducts = async (): Promise<ProductsResponse> => {
   }
 };
 
+// Función para obtener un producto por su código
 export const getProductById = async (codigo: string): Promise<ProductResponse> => {
   try {
     const response: AxiosResponse<ProductResponse> = await axios.get(`${apiUrl}/producto/${codigo}`);
