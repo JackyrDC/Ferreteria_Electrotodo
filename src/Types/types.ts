@@ -175,6 +175,13 @@ interface MovimientoCaja{
     fecha: Date;
 }
 
+// Interfaz para errores de la aplicación
+export interface AppError {
+  message: string;
+  code?: string;
+  details?: string;
+}
+
 export type {
    EstadoCivil,
      Estado,
