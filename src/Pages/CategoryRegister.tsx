@@ -3,6 +3,11 @@ import { CategoryForm } from '../Components/CategoryForm';
 import { createCategory } from '../Services/category.service';
 import type { CategoriaProducto } from '../Types/types';
 
+// Interfaz para errores
+interface ApiError {
+  message: string;
+}
+
 // Componente para registrar categorías
 export const CategoryRegister: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,11 +32,18 @@ export const CategoryRegister: React.FC = () => {
           text: response.mensaje || 'Error al crear la categoría'
         });
       }
-    } catch (error: any) {
-      setMessage({
-        type: 'error',
-        text: error.message || 'Error de conexión al crear la categoría'
-      });
+         } catch (error: unknown) {
+       let errorMessage = 'Error de conexión al crear la categoría';
+       
+       // Type guard para verificar si el error tiene la estructura esperada
+       if (error && typeof error === 'object' && 'message' in error && typeof (error as ApiError).message === 'string') {
+         errorMessage = (error as ApiError).message;
+       }
+       
+       setMessage({
+         type: 'error',
+         text: errorMessage
+       });
     } finally {
       setIsLoading(false);
     }
