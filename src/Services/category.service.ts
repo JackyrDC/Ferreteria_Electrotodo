@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
+import type { CategoriaProducto } from "../Types/types";
 
 // Interfaces para las respuestas de la API
 interface CategoryResponse {
