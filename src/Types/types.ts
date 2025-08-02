@@ -175,23 +175,24 @@ interface MovimientoCaja{
     fecha: Date;
 }
 
-export type{
+export type {
    EstadoCivil,
-    Estado,
-    EstadoVenta,
-    Persona,
-    Users,
-    CreateUsers,
-    Producto,
-    AgregarProducto,
-    Venta,
-    CreateVenta,
-    CrearDetalleVenta,
-    DetalleVenta,
-    Cliente,
-    nuevaOrdenCompra,
-    ordenCompraDetalle,
-    CrearOrdenCompraDetalle,
-    ConfiguracionCaja,
-    MovimientoCaja
-}
+     Estado,
+     EstadoVenta,
+     Persona,
+     Users,
+     CreateUsers,
+     Producto,
+     AgregarProducto,
+     Venta,
+     CreateVenta,
+     CrearDetalleVenta,
+     DetalleVenta,
+     Cliente,
+     nuevaOrdenCompra,
+     ordenCompraDetalle,
+     CrearOrdenCompraDetalle,
+     ConfiguracionCaja,
+     MovimientoCaja,
+     CategoriaProducto
+ }
