@@ -22,7 +22,7 @@ export type SaleData = {
 
 // Crear venta
 export async function createSale(data: SaleData) {
-  const token = localStorage.token
+  const token = localStorage.getItem('token');
 
   const response = await fetch(API_URL, {
     method: 'POST',
