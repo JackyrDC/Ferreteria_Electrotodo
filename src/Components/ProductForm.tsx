@@ -58,7 +58,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, isLoading = 
         // Buscar arrays en cualquier propiedad
         for (const key in response) {
           if (Array.isArray((response as any)[key])) {
-            console.log(`Encontrado array en propiedad: ${key}`, (response as any)[key]);
+            
             categoriesArray = (response as any)[key];
             break;
           }
