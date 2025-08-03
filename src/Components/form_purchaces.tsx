@@ -12,7 +12,7 @@ export default function FormPurchases() {
       <form className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white">
         {/* Número de Factura */}
         <div>
-          <label htmlFor="numero_orden" className="block mb-2 text-sm font-medium text-black">Nùmero de orden</label>
+          <label htmlFor="numero_orden" className="block mb-2 text-sm font-medium text-black">Número de orden</label>
           <input type="text" id="numero_orden" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej. F001-00001234" required />
         </div>
 
