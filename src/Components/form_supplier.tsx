@@ -70,7 +70,7 @@ export default function FormSupplier() {
         {/* telefono */}
         <div>
           <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-black">
-            Telefono
+            Teléfono
           </label>
           <input
             type="text"
