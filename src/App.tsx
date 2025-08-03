@@ -2,6 +2,7 @@ import './App.css'
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './Pages/Login';
+import SidebarPage from './Pages/sidebar';
 import { CategoryRegister } from './Pages/CategoryRegister';
 import { ProductRegister } from './Pages/ProductRegister';
 
@@ -72,6 +73,7 @@ function App() {
   }
 
   return (
+
     <div className="min-h-screen bg-gray-100">
       <Routes>
         {/* Ruta de login */}
