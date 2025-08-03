@@ -38,12 +38,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, isLoading = 
     try {
       setCategoriesLoading(true);
       setCategoriesError(null);
-      console.log('Cargando categorías...');
+      
       
       const response = await getAllCategories();
-      console.log('Respuesta de categorías:', response);
       
-      console.log('Estructura completa de la respuesta:', JSON.stringify(response, null, 2));
+      
+      
       
       // Verificar diferentes posibles estructuras de respuesta
       let categoriesArray: CategoriaProducto[] = [];
