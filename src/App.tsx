@@ -3,6 +3,8 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './Pages/Login';
 import { CategoryRegister } from './Pages/CategoryRegister';
+import { ProductRegister } from './Pages/ProductRegister';
+
 import { useAuth } from './hooks/useAuth';
 
 // Componente para rutas protegidas - usa el contexto existente
