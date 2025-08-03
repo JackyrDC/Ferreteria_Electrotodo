@@ -21,10 +21,10 @@ interface ApiError {
   error?: string;
 }
 
-export const login = async (email: string, password: string): Promise<LoginResponse> => {
+export const login = async (username: string, password: string): Promise<LoginResponse> => {
   try {
     const response: AxiosResponse<LoginResponse> = await axios.post(`${apiUrl}/api/auth/login`, {
-      email,
+      username,
       password,
     });
     return response.data;

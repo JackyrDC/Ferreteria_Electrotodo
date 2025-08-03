@@ -2,29 +2,85 @@ import type { FormEventHandler } from 'react';
 
 const LoginPage = ({ action }: { action: FormEventHandler<HTMLFormElement> }) => {
     return (
-<div className="w-full max-w-sm p-4 bg-gray-800 border border-gray-600 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+<div className="w-full max-w-sm p-8 bg-white border border-gray-500 rounded-lg shadow-lg ">
     <form className="space-y-6" onSubmit={action} method='post'>
-        <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
-        <div>
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+        <div className="text-center mb-6">
+            <h5 className="text-2xl font-bold text-gray-900  mb-2">Bienvenido</h5>
+            <p className="text-sm text-gray-600">Inicia sesión en tu cuenta</p>
         </div>
+        
         <div>
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-            <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
+                Nombre de usuario
+            </label>
+            <input 
+                type="text" 
+                name="username" 
+                id="username" 
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 block w-full p-3  transition-colors duration-200" 
+                placeholder="Ingresa tu nombre de usuario" 
+                required 
+            />
         </div>
-        <div className="flex items-start">
-            <div className="flex items-start">
-                <div className="flex items-center h-5">
-                    <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-                </div>
-                <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+        
+        <div>
+            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Contraseña
+            </label>
+            <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                placeholder="••••••••" 
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 block w-full p-3 transition-colors duration-200" 
+                required 
+            />
+        </div>
+        
+        <div className="flex items-center justify-between">
+            <div className="flex items-center">
+                <input 
+                    id="remember" 
+                    type="checkbox" 
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-red-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-red-600 dark:ring-offset-gray-800" 
+                    style={{ accentColor: '#D71B07' }}
+                />
+                <label htmlFor="remember" className="ml-2 text-sm text-gray-900 dark:text-gray-300">
+                    Recordarme
+                </label>
             </div>
-            <a href="#" className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
+            <a 
+                href="#" 
+                className="text-sm hover:underline transition-colors duration-200" 
+                style={{ color: '#D71B07' }}
+            >
+                ¿Olvidaste tu contraseña?
+            </a>
         </div>
-        <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered? <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+        
+        <button 
+            type="submit" 
+            className="w-full text-white font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-200 hover:shadow-lg transform hover:scale-[1.02] focus:ring-4 focus:outline-none"
+            style={{ 
+                backgroundColor: '#D71B07'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B01505'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#D71B07'}
+        >
+            Iniciar sesión
+        </button>
+        
+        <div className="text-center">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+                ¿No tienes cuenta? 
+            </span>
+            <a 
+                href="#" 
+                className="text-sm font-medium hover:underline ml-1 transition-colors duration-200" 
+                style={{ color: '#D71B07' }}
+            >
+                Regístrate aquí
+            </a>
         </div>
     </form>
 </div>
