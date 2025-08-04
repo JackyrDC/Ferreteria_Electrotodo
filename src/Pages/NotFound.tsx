@@ -28,7 +28,7 @@ const NotFound: React.FC = () => {
               Volver atrás
             </button>
             <button
-              onClick={() => window.location.href = '/'}
+              onClick={() => navigate('/')}
               className="px-6 py-3 text-white rounded-lg hover:shadow-lg transition-all duration-200 font-medium transform hover:scale-[1.02]"
               style={{ backgroundColor: '#D71B07' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B01505'}
