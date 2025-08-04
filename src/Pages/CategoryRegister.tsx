@@ -97,3 +97,5 @@ export const CategoryRegister: React.FC = () => {
     </div>
   );
 }; 
+
+export default CategoryRegister;

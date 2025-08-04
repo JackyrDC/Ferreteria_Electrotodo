@@ -3,16 +3,13 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './Pages/Login';
 import SidebarPage from './Pages/sidebar';
-import { CategoryRegister } from './Pages/CategoryRegister';
-import { ProductRegister } from './Pages/ProductRegister';
-
+import NotFound from './Pages/NotFound'; // ← Importar el nuevo componente
 import { useAuth } from './hooks/useAuth';
 
-// Componente para rutas protegidas - usa el contexto existente
+// Componente para rutas protegidas
 const ProtectedRoute = ({ children, requiredRole }: { children: React.ReactNode, requiredRole?: string }) => {
   const { user, token, isInitialized } = useAuth();
   
-  // Esperar a que se inicialice
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -25,16 +22,13 @@ const ProtectedRoute = ({ children, requiredRole }: { children: React.ReactNode,
   }
   
   if (!token || !user) {
-    console.log('🚫 No autenticado, redirigiendo a login');
     return <Navigate to="/login" replace />;
   }
   
   if (requiredRole && user.rol !== requiredRole && user.rol !== 'admin' && user.rol !== 'administrador') {
-    console.log('🚫 Sin permisos, redirigiendo a unauthorized');
     return <Navigate to="/unauthorized" replace />;
   }
   
-  console.log('✅ Acceso permitido a', user.rol);
   return <>{children}</>;
 };
 
@@ -60,7 +54,6 @@ function App() {
   
   console.log('🏠 App - Initialized:', isInitialized, 'Token:', !!token, 'User:', user?.rol);
 
-  // Mostrar loading mientras el hook se inicializa
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -73,18 +66,89 @@ function App() {
   }
 
   return (
-
     <div className="min-h-screen bg-gray-100">
       <Routes>
-        {/* Ruta de login */}
+        {/* Ruta de login - sin sidebar */}
         <Route path="/login" element={<LoginPage />} />
         
-        {/* Rutas protegidas para administradores */}
+        {/* Todas las rutas protegidas usan SidebarPage como layout */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+        
         <Route 
           path="/categorias/registro" 
           element={
             <ProtectedRoute requiredRole="admin">
-              <CategoryRegister />
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/productos/registro" 
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/ventas" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/proveedores" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/caja" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/orden-compra" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/empleados" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/recepcion-compras" 
+          element={
+            <ProtectedRoute>
+              <SidebarPage />
             </ProtectedRoute>
           } 
         />
@@ -97,19 +161,15 @@ function App() {
           path="/" 
           element={
             token && user ? (
-              user.rol === 'admin' || user.rol === 'administrador' ? (
-                <Navigate to="/categorias/registro" replace />
-              ) : (
-                <Navigate to="/dashboard" replace />
-              )
+              <Navigate to="/dashboard" replace />
             ) : (
               <Navigate to="/login" replace />
             )
           } 
         />
         
-        {/* Ruta por defecto */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Página 404 - DEBE estar al final */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

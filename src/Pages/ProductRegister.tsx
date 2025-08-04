@@ -103,3 +103,5 @@ export const ProductRegister: React.FC = () => {
     </div>
   );
 }; 
+
+export default ProductRegister;
