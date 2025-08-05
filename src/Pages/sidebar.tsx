@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarLayout from '../Components/sidebar';
 import { useAuth } from '../hooks/useAuth';
-
+import FormReceiving_report from '../Components/form_Receiving_Report'; 
 import FormSales from '../Components/form_sales';
 import FormPurchases from '../Components/form_purchaces';
 import FormSupplier from '../Components/form_supplier';
@@ -11,7 +11,7 @@ import FormCashRegister from '../Components/form_cashRegister';
 import DataGridCashRegister from '../Components/dataGrid_cashRegister';
 import {CategoryForm} from '../Components/CategoryForm';
 import {ProductForm} from '../Components/ProductForm';
-
+import TableProductosReceiving from '../Components/table_salesProductos';
 // Importar el tipo desde el componente SidebarLayout
 import type { SidebarOption } from '../Components/sidebar';
 
@@ -144,10 +144,16 @@ export default function SidebarPage() {
             }} />
           </div>
         )}
+        {/* Módulo de detalle recepcion */}
+        {activeOption === 'recepcionCompras' && (
+          <div className="space-y-6">
+            <FormReceiving_report />
+            <TableProductosReceiving/>
+          </div>
+        )}
 
         {/* Módulos no implementados */}
-        {(activeOption === 'empleados' || 
-          activeOption === 'recepcionCompras') && (
+        {(activeOption === 'empleados' ) && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#D71B07' }}>
               {activeOption.charAt(0).toUpperCase() + activeOption.slice(1)}
