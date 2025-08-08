@@ -24,8 +24,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ onSubmit, isLoading 
 
     if (!formData.categoria_id.trim()) {
       newErrors.categoria_id = "El ID de categoría es requerido";
-    } else if (formData.categoria_id.length < 5 || formData.categoria_id.length > 50) {
-      newErrors.categoria_id = "El ID debe tener entre 5 y 50 caracteres";
+    } else if (formData.categoria_id.length < 5 || formData.categoria_id.length > 10) {
+      newErrors.categoria_id = "El ID debe tener entre 5 y 10 caracteres";
     }
 
     if (!formData.nombre.trim()) {
@@ -91,7 +91,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ onSubmit, isLoading 
                  : "border-gray-300 focus:ring-[#D71B07] focus:border-[#D71B07]"
              } text-gray-900 text-sm rounded-lg block w-full p-2.5`}
             placeholder="Ej: CAT001"
-            maxLength={50}
+            maxLength={10}
           />
           {errors.categoria_id && (
             <p className="mt-2 text-sm text-red-600">
@@ -99,7 +99,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ onSubmit, isLoading 
             </p>
           )}
           <p className="mt-1 text-xs text-gray-500">
-            Código único de 5-50 caracteres para identificar la categoría
+            Código único de 5-10 caracteres para identificar la categoría
           </p>
         </div>
 
