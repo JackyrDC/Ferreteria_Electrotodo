@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getProductoPorCodigo } from '../Services/productos.services.ts';
-import { createSale} from '../Services/purchases.services.ts';
+import { createSale } from '../Services/purchases.services.ts';
 import type { PurchaseData } from '../Services/purchases.services.ts';
 
 // Tipos
@@ -41,7 +41,12 @@ export default function FormPurchases() {
         );
         setDetalles(actualizados);
       } else {
-        setDetalles([...detalles, { ...producto, cantidad: 1 }]);
+        // Forzar precio_compra como número
+        setDetalles([...detalles, { 
+          ...producto, 
+          cantidad: 1, 
+          precio_compra: Number(producto.precio_compra) 
+        }]);
       }
       setCodigoBuscar('');
     } catch (error) {
@@ -84,13 +89,22 @@ export default function FormPurchases() {
       detalles: detalles.map((p) => ({
         codigo_producto: p.codigo,
         cantidad: p.cantidad,
-        precio_unitario: p.precio_compra,
+        precio_unitario: Number(p.precio_compra), // forzar número aquí también
       })),
     };
 
     try {
       await createSale(compra);
       alert('Compra registrada correctamente');
+      // Opcional: limpiar formulario
+      setDetalles([]);
+      setNumeroOrden(0);
+      setFechaEmision('');
+      setFechaEntrega('');
+      setEstado('');
+      setObservaciones('');
+      setProveedorId('');
+      setUsuarioId('');
     } catch (error) {
       alert('Error al registrar compra');
       console.error(error);
@@ -103,173 +117,173 @@ export default function FormPurchases() {
         <h2 className="text-xl font-semibold text-white">Nueva Factura</h2>
       </div>
       <form
-  onSubmit={handleSubmit}
-  className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white"
->
-  {/* Número de orden */}
-  <div>
-    <label htmlFor="numero_orden" className="block mb-2 text-sm font-medium text-black">Número de orden</label>
-    <input
-      id="numero_orden"
-      type="text"
-      value={numeroOrden}
-      onChange={(e) => setNumeroOrden(Number(e.target.value))}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    />
-  </div>
-
-  {/* Fecha de emisión */}
-  <div>
-    <label htmlFor="fecha_emision" className="block mb-2 text-sm font-medium text-black">Fecha de Emisión</label>
-    <input
-      id="fecha_emision"
-      type="date"
-      value={fechaEmision}
-      onChange={(e) => setFechaEmision(e.target.value)}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    />
-  </div>
-
-  {/* Fecha de entrega */}
-  <div>
-    <label htmlFor="fecha_entrega_esperada" className="block mb-2 text-sm font-medium text-black">Fecha de entrega</label>
-    <input
-      id="fecha_entrega_esperada"
-      type="date"
-      value={fechaEntrega}
-      onChange={(e) => setFechaEntrega(e.target.value)}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    />
-  </div>
-
-  {/* Subtotal */}
-  <div>
-    <label htmlFor="subtotal" className="block mb-2 text-sm font-medium text-black">Subtotal</label>
-    <input
-      id="subtotal"
-      type="number"
-      value={subtotal.toFixed(2)}
-      readOnly
-      className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
-    />
-  </div>
-
-  {/* IVA */}
-  <div>
-    <label htmlFor="iva" className="block mb-2 text-sm font-medium text-black">IVA (15%)</label>
-    <input
-      id="iva"
-      type="number"
-      value={iva.toFixed(2)}
-      readOnly
-      className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
-    />
-  </div>
-
-  {/* Total */}
-  <div>
-    <label htmlFor="total" className="block mb-2 text-sm font-medium text-black">Total</label>
-    <input
-      id="total"
-      type="number"
-      value={total.toFixed(2)}
-      readOnly
-      className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
-    />
-  </div>
-
-  {/* Proveedor */}
-  <div>
-    <label htmlFor="proveedor_id" className="block mb-2 text-sm font-medium text-black">Proveedor</label>
-    <input
-      id="proveedor_id"
-      type="number"
-      value={proveedorId}
-      onChange={(e) => setProveedorId(Number(e.target.value))}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    />
-  </div>
-
-  {/* Usuario */}
-  <div>
-    <label htmlFor="usuario_id" className="block mb-2 text-sm font-medium text-black">Usuario</label>
-    <input
-      id="usuario_id"
-      type="number"
-      value={usuarioId}
-      onChange={(e) => setUsuarioId(Number(e.target.value))}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    />
-  </div>
-
-  {/* Estado */}
-  <div>
-    <label htmlFor="estado" className="block mb-2 text-sm font-medium text-black">Estado</label>
-    <select
-      id="estado"
-      value={estado}
-      onChange={(e) => setEstado(e.target.value)}
-      required
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    >
-      <option value="">Seleccione</option>
-      <option value="pendiente">Pendiente</option>
-      <option value="parcial">Parcial</option>
-      <option value="completado">Completado</option>
-      <option value="cancelada">Cancelada</option>
-    </select>
-  </div>
-
-  {/* Buscador de producto */}
-  <div className="md:col-span-2">
-    <label htmlFor="buscador" className="block mb-2 text-sm font-medium text-black">Buscar Producto</label>
-    <div className="flex">
-      <input
-        type="text"
-        id="buscador"
-        placeholder="Nombre o código"
-        value={codigoBuscar}
-        onChange={(e) => setCodigoBuscar(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), agregarProducto())}
-        className="bg-gray-50 border border-gray-300 text-black text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-      />
-      <button
-        type="button"
-        onClick={agregarProducto}
-        className="bg-[#D71B07] text-white px-4 py-2 rounded-r-lg hover:bg-red-700"
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white"
       >
-        Agregar
-      </button>
-    </div>
-  </div>
+        {/* Número de orden */}
+        <div>
+          <label htmlFor="numero_orden" className="block mb-2 text-sm font-medium text-black">Número de orden</label>
+          <input
+            id="numero_orden"
+            type="text"
+            value={numeroOrden}
+            onChange={(e) => setNumeroOrden(Number(e.target.value))}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
 
-  {/* Observaciones */}
-  <div className="md:col-span-2">
-    <label htmlFor="observaciones" className="block mb-2 text-sm font-medium text-black">Observaciones</label>
-    <textarea
-      id="observaciones"
-      value={observaciones}
-      onChange={(e) => setObservaciones(e.target.value)}
-      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-      rows={3}
-    ></textarea>
-  </div>
+        {/* Fecha de emisión */}
+        <div>
+          <label htmlFor="fecha_emision" className="block mb-2 text-sm font-medium text-black">Fecha de Emisión</label>
+          <input
+            id="fecha_emision"
+            type="date"
+            value={fechaEmision}
+            onChange={(e) => setFechaEmision(e.target.value)}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
 
-  {/* Botón enviar */}
-  <div className="md:col-span-2 flex justify-end">
-    <button
-      type="submit"
-      className="bg-[#D71B07] text-white font-medium px-6 py-2 rounded-lg hover:bg-red-700"
-    >
-      Hacer Compra
-    </button>
-  </div>
-</form>
+        {/* Fecha de entrega */}
+        <div>
+          <label htmlFor="fecha_entrega_esperada" className="block mb-2 text-sm font-medium text-black">Fecha de entrega</label>
+          <input
+            id="fecha_entrega_esperada"
+            type="date"
+            value={fechaEntrega}
+            onChange={(e) => setFechaEntrega(e.target.value)}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
+
+        {/* Subtotal */}
+        <div>
+          <label htmlFor="subtotal" className="block mb-2 text-sm font-medium text-black">Subtotal</label>
+          <input
+            id="subtotal"
+            type="number"
+            value={subtotal.toFixed(2)}
+            readOnly
+            className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
+          />
+        </div>
+
+        {/* IVA */}
+        <div>
+          <label htmlFor="iva" className="block mb-2 text-sm font-medium text-black">IVA (15%)</label>
+          <input
+            id="iva"
+            type="number"
+            value={iva.toFixed(2)}
+            readOnly
+            className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
+          />
+        </div>
+
+        {/* Total */}
+        <div>
+          <label htmlFor="total" className="block mb-2 text-sm font-medium text-black">Total</label>
+          <input
+            id="total"
+            type="number"
+            value={total.toFixed(2)}
+            readOnly
+            className="bg-gray-100 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
+          />
+        </div>
+
+        {/* Proveedor */}
+        <div>
+          <label htmlFor="proveedor_id" className="block mb-2 text-sm font-medium text-black">Proveedor</label>
+          <input
+            id="proveedor_id"
+            type="number"
+            value={proveedorId}
+            onChange={(e) => setProveedorId(Number(e.target.value))}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
+
+        {/* Usuario */}
+        <div>
+          <label htmlFor="usuario_id" className="block mb-2 text-sm font-medium text-black">Usuario</label>
+          <input
+            id="usuario_id"
+            type="number"
+            value={usuarioId}
+            onChange={(e) => setUsuarioId(Number(e.target.value))}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
+
+        {/* Estado */}
+        <div>
+          <label htmlFor="estado" className="block mb-2 text-sm font-medium text-black">Estado</label>
+          <select
+            id="estado"
+            value={estado}
+            onChange={(e) => setEstado(e.target.value)}
+            required
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          >
+            <option value="">Seleccione</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="parcial">Parcial</option>
+            <option value="completado">Completado</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>
+
+        {/* Buscador de producto */}
+        <div className="md:col-span-2">
+          <label htmlFor="buscador" className="block mb-2 text-sm font-medium text-black">Buscar Producto</label>
+          <div className="flex">
+            <input
+              type="text"
+              id="buscador"
+              placeholder="Nombre o código"
+              value={codigoBuscar}
+              onChange={(e) => setCodigoBuscar(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), agregarProducto())}
+              className="bg-gray-50 border border-gray-300 text-black text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            />
+            <button
+              type="button"
+              onClick={agregarProducto}
+              className="bg-[#D71B07] text-white px-4 py-2 rounded-r-lg hover:bg-red-700"
+            >
+              Agregar
+            </button>
+          </div>
+        </div>
+
+        {/* Observaciones */}
+        <div className="md:col-span-2">
+          <label htmlFor="observaciones" className="block mb-2 text-sm font-medium text-black">Observaciones</label>
+          <textarea
+            id="observaciones"
+            value={observaciones}
+            onChange={(e) => setObservaciones(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            rows={3}
+          ></textarea>
+        </div>
+
+        {/* Botón enviar */}
+        <div className="md:col-span-2 flex justify-end">
+          <button
+            type="submit"
+            className="bg-[#D71B07] text-white font-medium px-6 py-2 rounded-lg hover:bg-red-700"
+          >
+            Hacer Compra
+          </button>
+        </div>
+      </form>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
         <table className="w-full text-sm text-left text-black border-separate border-spacing-0">

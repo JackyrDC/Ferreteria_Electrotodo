@@ -1,5 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const API_URL = `${API_BASE}/OrdenCompra`;
+const API_URL = `${API_BASE}/ordenCompra`;
 
 
 type DetalleCompra = {
@@ -16,8 +16,6 @@ export type PurchaseData = {
   observaciones: string;
   proveedor_id: number;
   usuario_id: number;
- 
-
   detalles: DetalleCompra[];
 };
 
@@ -30,12 +28,18 @@ export async function createSale(data: PurchaseData) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' ,
              'Authorization': `Bearer ${token}`,
-     },
      
+            },
     body: JSON.stringify(data),
+    
   });
-  if (!response.ok) throw new Error('Error al crear compra');
-  return response.json();
+  console.log("los datos que se envian " + JSON.stringify(data, null, 2));
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Error al crear compra: ${response.status} - ${errorBody}`);
+  }
+   
 }
 
 // Obtener ventas
