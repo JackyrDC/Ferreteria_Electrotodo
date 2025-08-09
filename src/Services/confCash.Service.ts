@@ -3,7 +3,6 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const API_URL = `${API_BASE}/confCaja`;
 
 
-
 export async function createNew(data: {
   caja_id: number;
   fecha: string;
