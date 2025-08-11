@@ -45,4 +45,31 @@ export const getCategoryById = async (id: string): Promise<CategoryResponse> => 
   } catch (error: unknown) {
     throw handleApiError(error, "Error desconocido al obtener categoría");
   }
+};
+
+export const updateCategory = async (id: string, categoryData: Partial<CategoriaProducto>): Promise<CategoryResponse> => {
+  try {
+    const response: AxiosResponse<CategoryResponse> = await axios.put(`${apiUrl}/categoria/${id}`, categoryData);
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al actualizar categoría");
+  }
+};
+
+export const deleteCategory = async (id: string): Promise<CategoryResponse> => {
+  try {
+    const response: AxiosResponse<CategoryResponse> = await axios.delete(`${apiUrl}/categoria/${id}`);
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al eliminar categoría");
+  }
+};
+
+export const toggleCategoryStatus = async (id: string): Promise<CategoryResponse> => {
+  try {
+    const response: AxiosResponse<CategoryResponse> = await axios.patch(`${apiUrl}/categoria/${id}/toggle`, {});
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al cambiar estado de categoría");
+  }
 }; 

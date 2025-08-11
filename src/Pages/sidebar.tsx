@@ -9,8 +9,7 @@ import FormSupplier from '../Components/form_supplier';
 import TableSupplier from '../Components/table_supplier';
 import FormCashRegister from '../Components/form_cashRegister';
 import DataGridCashRegister from '../Components/dataGrid_cashRegister';
-//import {CategoryForm} from '../Components/CategoryForm';
-//import {ProductForm} from '../Components/ProductForm';
+
 import CategoryRegister from './CategoryRegister';
 import ProductRegister from './ProductRegister';
 import TableProductosReceiving from '../Components/table_salesProductos';

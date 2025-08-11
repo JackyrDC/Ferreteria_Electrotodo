@@ -54,4 +54,43 @@ export const getProductById = async (codigo: string): Promise<ProductResponse> =
   } catch (error: unknown) {
     throw handleApiError(error, "Error desconocido al obtener producto");
   }
+};
+
+// Función para actualizar un producto
+export const updateProduct = async (codigo: string, productData: FormData): Promise<ProductResponse> => {
+  try {
+    // Agregar el código al FormData para que el backend sepa qué producto actualizar
+    productData.append('codigo', codigo);
+    
+    // Usar el endpoint correcto según el backend: PUT /:codigo
+    const response: AxiosResponse<ProductResponse> = await axios.put(`${apiUrl}/producto/${codigo}`, productData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al actualizar producto");
+  }
+};
+
+// Función para eliminar un producto
+export const deleteProduct = async (codigo: string): Promise<ProductResponse> => {
+  try {
+    const response: AxiosResponse<ProductResponse> = await axios.delete(`${apiUrl}/producto/${codigo}`);
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al eliminar producto");
+  }
+};
+
+// Función para cambiar el estado de un producto
+export const toggleProductStatus = async (codigo: string): Promise<ProductResponse> => {
+  try {
+    const response: AxiosResponse<ProductResponse> = await axios.patch(`${apiUrl}/producto/${codigo}/toggle`, {});
+    return response.data;
+  } catch (error: unknown) {
+    throw handleApiError(error, "Error desconocido al cambiar estado de producto");
+  }
 }; 
