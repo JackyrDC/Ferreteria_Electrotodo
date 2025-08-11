@@ -9,8 +9,8 @@ import FormSupplier from '../Components/form_supplier';
 import TableSupplier from '../Components/table_supplier';
 import FormCashRegister from '../Components/form_cashRegister';
 import DataGridCashRegister from '../Components/dataGrid_cashRegister';
-import {CategoryForm} from '../Components/CategoryForm';
-import {ProductForm} from '../Components/ProductForm';
+import CategoryRegister from './CategoryRegister';
+import ProductRegister from './ProductRegister';
 
 // Importar el tipo desde el componente SidebarLayout
 import type { SidebarOption } from '../Components/sidebar';
@@ -128,20 +128,14 @@ export default function SidebarPage() {
         {/* Módulo de Categorías */}
         {activeOption === 'categorias' && (
           <div className="space-y-6">
-            <CategoryForm onSubmit={(categoryData) => {
-              // Aquí puedes manejar el envío de la categoría, por ejemplo:
-              console.log('Categoría enviada:', categoryData);
-            }} />
+            <CategoryRegister />
           </div>
         )}
 
         {/* Módulo de Productos */}
         {activeOption === 'productos' && (
           <div className="space-y-6">
-            <ProductForm onSubmit={(productData) => {
-              // Aquí puedes manejar el envío del producto, por ejemplo:
-              console.log('Producto enviado:', productData);
-            }} />
+            <ProductRegister />
           </div>
         )}
 

@@ -14,34 +14,24 @@ const LoginScreen = () => {
         const username = formData.get('username') as string;
         const password = formData.get('password') as string;
         
-        console.log('🔍 Datos del formulario:', { username, password });
-        
         if (!username || !password) {
-            console.error('❌ Username o password vacíos');
             return;
         }
         
         try {
-            console.log('🚀 Iniciando login...');
             const response = await login(username, password);
-            console.log('✅ Login exitoso, respuesta:', response);
             
             setNotification('¡Inicio de sesión exitoso!');
             
             // Verificar el rol del usuario
-            console.log('👤 Rol del usuario:', response.user.rol);
-            
-            // Redirigir inmediatamente sin setTimeout para debugging
             if (response.user.rol === 'admin' || response.user.rol === 'administrador') {
-                console.log('📍 Redirigiendo a categorias...');
                 navigate('/categorias/registro', { replace: true });
             } else {
-                console.log('📍 Redirigiendo a dashboard...');
                 navigate('/dashboard', { replace: true });
             }
             
         } catch (error: unknown) {
-            console.error('💥 Error en handleLogin:', error);
+            // Error manejado por useAuth
         }
     };
 
