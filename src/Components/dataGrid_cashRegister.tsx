@@ -13,12 +13,14 @@ type SaldoCaja = {
 export default function DataGridCashRegister() {
   const [saldo, setSaldo] = useState<SaldoCaja | null>(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     async function fetchSaldo() {
       try {
         const data = await getAllCashConfigs();
         setSaldo(data);
+        console.log(data);
+        
       } catch (error) {
         console.error('Error al obtener saldo de caja:', error);
       } finally {
