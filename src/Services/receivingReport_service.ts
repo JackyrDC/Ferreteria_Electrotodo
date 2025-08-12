@@ -1,16 +1,18 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const API_URL = `${API_BASE}/recepcion`;
 
-
-export type Recepcion = {
-  numero_orden: number;
+export type RecepcionItem = {
   codigo_producto: string;
   cantidad_recibida: number;
-  fecha_recepcion: string | Date; 
+  fecha_recepcion?: string | Date; // opcional, solo frontend
 };
 
+export type RecepcionRequest = {
+  numero_orden: number;
+  recepciones: RecepcionItem[];
+};
 
-export async function createRecepcion(data: Recepcion) {
+export async function createRecepcion(data: RecepcionRequest) {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -21,15 +23,13 @@ export async function createRecepcion(data: Recepcion) {
   return response.json();
 }
 
-
 export async function getRecepciones() {
   const response = await fetch(API_URL);
   if (!response.ok) throw new Error('Error al obtener las recepciones');
   return response.json();
 }
 
-
-export async function update(id: string, data: Recepcion) {
+export async function update(id: string, data: RecepcionRequest) {
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

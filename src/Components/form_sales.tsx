@@ -181,7 +181,7 @@ export default function FormSales() {
             onChange={(e) => setDescuento(Number(e.target.value))}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
             min={0}
-            step={0.01}
+            step={0.1}
           />
         </div>
 
@@ -192,6 +192,7 @@ export default function FormSales() {
             value={observaciones}
             onChange={(e) => setObservaciones(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
+            placeholder="Cualquier tipo de petición o comentario"
           />
         </div>
 

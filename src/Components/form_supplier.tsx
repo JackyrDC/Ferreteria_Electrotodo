@@ -62,6 +62,7 @@ export default function FormSupplier() {
             id="nombre"
             value={form.nombre}
             onChange={handleChange}
+            placeholder="Nombre de la Empresa o Proveedor"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
           />
@@ -77,6 +78,7 @@ export default function FormSupplier() {
             id="telefono"
             value={form.telefono}
             onChange={handleChange}
+            placeholder="0000-0000"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
           />
@@ -92,6 +94,7 @@ export default function FormSupplier() {
             id="email"
             value={form.email}
             onChange={handleChange}
+            placeholder="correo@gmail.com"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
           />

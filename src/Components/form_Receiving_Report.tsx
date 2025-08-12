@@ -3,10 +3,10 @@ import { createRecepcion } from '../Services/receivingReport_service';
 
 export default function FormReceiving_report() {
   const [form, setForm] = useState({
-    numero_orden: 0,
-    codigo_producto: "",
-    cantidad_recibida: 0,
-    fecha_recepcion: "", 
+    numero_orden: '',
+    codigo_producto: '',
+    cantidad_recibida: '',
+    fecha_recepcion: '', 
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,12 +15,33 @@ export default function FormReceiving_report() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar o convertir tipos aquí
+    const numeroOrdenNum = Number(form.numero_orden);
+    const cantidadRecibidaNum = Number(form.cantidad_recibida);
+
+    if (isNaN(numeroOrdenNum) || isNaN(cantidadRecibidaNum)) {
+      alert('Número de orden y cantidad recibida deben ser números válidos');
+      return;
+    }
+
+    const recepcionPayload = {
+      numero_orden: numeroOrdenNum,
+      recepciones: [
+        {
+          codigo_producto: form.codigo_producto,
+          cantidad_recibida: cantidadRecibidaNum,
+          fecha_recepcion: form.fecha_recepcion, // opcional para backend
+        },
+      ],
+    };
+
     try {
-      await createRecepcion(form);
+      await createRecepcion(recepcionPayload);
       alert('Stock Actualizado');
-      setForm({ numero_orden: 0, codigo_producto: '', cantidad_recibida: 0, fecha_recepcion: "" }); // Reinicia como string vacío
+      setForm({ numero_orden: '', codigo_producto: '', cantidad_recibida: '', fecha_recepcion: '' });
     } catch (err) {
-      alert('Error al guardar' + err);
+      alert('Error al guardar: ' + err);
     }
   };
 
@@ -36,10 +57,10 @@ export default function FormReceiving_report() {
         className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white"
         onSubmit={handleSubmit}
       >
-        {/*  orden */}
+        {/* Numero de orden */}
         <div>
-          <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-black">
-            Numero de orden
+          <label htmlFor="numero_orden" className="block mb-2 text-sm font-medium text-black">
+            Número de orden
           </label>
           <input
             type="number"
@@ -47,14 +68,15 @@ export default function FormReceiving_report() {
             value={form.numero_orden}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="11111"
             required
           />
         </div>
 
-        {/* producto */}
+        {/* Código del producto */}
         <div>
-          <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-black">
-            Codigo del producto
+          <label htmlFor="codigo_producto" className="block mb-2 text-sm font-medium text-black">
+            Código del producto
           </label>
           <input
             type="text"
@@ -63,20 +85,37 @@ export default function FormReceiving_report() {
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            placeholder="Ej. PRO-00-00"
           />
         </div>
-        {/* fecha */}
+
+        {/* Fecha de recepción */}
         <div>
-          <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-black">
-            Fecha Recibido
+          <label htmlFor="fecha_recepcion" className="block mb-2 text-sm font-medium text-black">
+            Fecha de recepción
           </label>
           <input
+            id="fecha_recepcion"
             type="date"
-            id="fecha_recibida"
             value={form.fecha_recepcion}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
+
+        {/* Cantidad recibida */}
+        <div>
+          <label htmlFor="cantidad_recibida" className="block mb-2 text-sm font-medium text-black">
+            Cantidad recibida
+          </label>
+          <input
+            type="number"
+            id="cantidad_recibida"
+            value={form.cantidad_recibida}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            min={1}
           />
         </div>
 
