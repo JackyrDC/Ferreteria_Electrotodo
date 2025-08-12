@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import { handleApiError, getApiBaseUrl, type ApiError } from "./utils";
+import { handleApiError, getApiBaseUrl } from "./utils";
 import type { CategoriaProducto } from "../Types/types";
 
 // Interfaces para las respuestas de la API

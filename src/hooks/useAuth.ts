@@ -19,19 +19,17 @@ export const useAuth = () => {
     isInitialized: false,
   });
 
-  // Usar un useEffect que solo se ejecute una vez
   useEffect(() => {
-    let isMounted = true; // Flag para evitar actualizaciones si el componente se desmonta
-    
+    let isMounted = true;
     const initializeAuth = () => {
-      console.log('🔄 Inicializando useAuth...');
+      console.log('Inicializando useAuth...');
       const savedToken = localStorage.getItem('token');
       const savedUser = localStorage.getItem('user');
       
       if (savedToken && savedUser) {
         try {
           const user = JSON.parse(savedUser);
-          console.log('📱 Sesión recuperada:', { token: !!savedToken, user: user.rol });
+          console.log('Sesión recuperada:', { token: !!savedToken, user: user.rol });
           
           if (isMounted) {
             setAuthState({
@@ -43,7 +41,7 @@ export const useAuth = () => {
             });
           }
         } catch (error) {
-          console.error('❌ Error parsing saved user:', error);
+          console.error('Error parsing saved user:', error);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           
@@ -55,7 +53,7 @@ export const useAuth = () => {
           }
         }
       } else {
-        console.log('📭 No hay sesión guardada');
+        console.log('No hay sesión guardada');
         if (isMounted) {
           setAuthState(prev => ({ 
             ...prev, 
@@ -65,22 +63,21 @@ export const useAuth = () => {
       }
     };
 
-    // Solo inicializar si no está ya inicializado
     if (!authState.isInitialized) {
       initializeAuth();
     }
 
     return () => {
-      isMounted = false; // Cleanup para evitar memory leaks
+      isMounted = false; 
     };
-  }, []); // Array vacío para que solo se ejecute una vez
+  }, []); 
 
   const login = async (username: string, password: string) => {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
       const response = await loginService(username, password);
-      console.log('🎯 Login service response:', response);
+      console.log('Login service response:', response);
       
       const newState = {
         user: response.user,
@@ -90,7 +87,7 @@ export const useAuth = () => {
         isInitialized: true,
       };
       
-      console.log('💾 Guardando estado:', newState);
+      console.log('Guardando estado:', newState);
       setAuthState(newState);
       
       localStorage.setItem('token', response.token);
@@ -98,7 +95,7 @@ export const useAuth = () => {
       
       return response;
     } catch (error: unknown) {
-      console.error('💥 Error en login:', error);
+      console.error('Error en login:', error);
       interface AuthError {
         msg?: string;
         message?: string;

@@ -43,7 +43,7 @@ export const login = async (username: string, password: string): Promise<LoginRe
 
 export const register = async (userData: CreateUsers): Promise<RegisterResponse> => {
   try {
-    const response: AxiosResponse<RegisterResponse> = await axios.post(`${apiUrl}/auth/register`, userData);
+    const response: AxiosResponse<RegisterResponse> = await axios.post(`${apiUrl}/api/auth/register`, userData);
     return response.data;
   } catch (error: unknown) {
     let apiError: ApiError;
