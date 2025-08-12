@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // ← Agregar esta importación
 import Nut404Animation from '../Components/404';
 
 const NotFound: React.FC = () => {
+  const navigate = useNavigate(); // ← Agregar este hook
+  
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4">
