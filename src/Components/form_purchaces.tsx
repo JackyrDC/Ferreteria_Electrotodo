@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getProductoPorCodigo } from '../Services/productos.services.ts';
 import { createSale } from '../Services/purchases.services.ts';
+import { getSuppliers } from '../Services/supplier.service.ts'; // Importa el service de proveedores
 import type { PurchaseData } from '../Services/purchases.services.ts';
 
 // Tipos
@@ -15,7 +16,15 @@ interface DetalleCompra extends Producto {
   cantidad: number;
 }
 
+interface Supplier {
+  proveedor_id: string; // o number según tu backend
+  nombre: string;
+}
+
 export default function FormPurchases() {
+  // Estado proveedores
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+
   const [codigoBuscar, setCodigoBuscar] = useState('');
   const [detalles, setDetalles] = useState<DetalleCompra[]>([]);
   const [numeroOrden, setNumeroOrden] = useState<number>(0);
@@ -23,8 +32,22 @@ export default function FormPurchases() {
   const [fechaEntrega, setFechaEntrega] = useState('');
   const [estado, setEstado] = useState('');
   const [observaciones, setObservaciones] = useState('');
-  const [proveedorId, setProveedorId] = useState<number | ''>('');
-  const [usuarioId, setUsuarioId] = useState<number | ''>('');
+  const [proveedorId, setProveedorId] = useState<string>(''); // Cambié a string para id
+  
+
+  // Cargar proveedores al montar componente
+  useEffect(() => {
+    async function fetchSuppliers() {
+      try {
+        const data = await getSuppliers();
+        setSuppliers(data);
+      } catch (error) {
+        console.error('Error al cargar proveedores:', error);
+        alert('Error al cargar proveedores');
+      }
+    }
+    fetchSuppliers();
+  }, []);
 
   const subtotal = detalles.reduce((acc, item) => acc + item.precio_compra * item.cantidad, 0);
   const iva = subtotal * 0.15;
@@ -41,12 +64,14 @@ export default function FormPurchases() {
         );
         setDetalles(actualizados);
       } else {
-        // Forzar precio_compra como número
-        setDetalles([...detalles, { 
-          ...producto, 
-          cantidad: 1, 
-          precio_compra: Number(producto.precio_compra) 
-        }]);
+        setDetalles([
+          ...detalles,
+          {
+            ...producto,
+            cantidad: 1,
+            precio_compra: Number(producto.precio_compra),
+          },
+        ]);
       }
       setCodigoBuscar('');
     } catch (error) {
@@ -78,6 +103,13 @@ export default function FormPurchases() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!proveedorId) {
+      alert('Selecciona un proveedor');
+      return;
+    }
+
+   
     const compra: PurchaseData = {
       numero_orden: numeroOrden,
       fecha_emision: fechaEmision,
@@ -85,18 +117,17 @@ export default function FormPurchases() {
       estado,
       observaciones,
       proveedor_id: Number(proveedorId),
-      usuario_id: Number(usuarioId),
       detalles: detalles.map((p) => ({
         codigo_producto: p.codigo,
         cantidad: p.cantidad,
-        precio_unitario: Number(p.precio_compra), // forzar número aquí también
+        precio_unitario: Number(p.precio_compra),
       })),
     };
 
     try {
       await createSale(compra);
       alert('Compra registrada correctamente');
-      // Opcional: limpiar formulario
+      // Limpiar formulario
       setDetalles([]);
       setNumeroOrden(0);
       setFechaEmision('');
@@ -104,12 +135,14 @@ export default function FormPurchases() {
       setEstado('');
       setObservaciones('');
       setProveedorId('');
-      setUsuarioId('');
+      
     } catch (error) {
       alert('Error al registrar compra');
       console.error(error);
     }
   };
+
+
 
   return (
     <div className="w-full max-w-4xl mx-auto my-6 border border-[#D71B07] rounded-lg shadow-md overflow-hidden">
@@ -129,6 +162,7 @@ export default function FormPurchases() {
             value={numeroOrden}
             onChange={(e) => setNumeroOrden(Number(e.target.value))}
             required
+            placeholder="11111"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
         </div>
@@ -196,29 +230,22 @@ export default function FormPurchases() {
         </div>
 
         {/* Proveedor */}
-        <div>
+         <div>
           <label htmlFor="proveedor_id" className="block mb-2 text-sm font-medium text-black">Proveedor</label>
-          <input
+          <select
             id="proveedor_id"
-            type="number"
             value={proveedorId}
-            onChange={(e) => setProveedorId(Number(e.target.value))}
+            onChange={(e) => setProveedorId(e.target.value)}
             required
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          />
-        </div>
-
-        {/* Usuario */}
-        <div>
-          <label htmlFor="usuario_id" className="block mb-2 text-sm font-medium text-black">Usuario</label>
-          <input
-            id="usuario_id"
-            type="number"
-            value={usuarioId}
-            onChange={(e) => setUsuarioId(Number(e.target.value))}
-            required
-            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          />
+          >
+            <option value="">Seleccione un proveedor</option>
+            {suppliers.map((sup) => (
+              <option key={sup.proveedor_id} value={sup.proveedor_id}>
+                {sup.nombre}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Estado */}
@@ -246,7 +273,7 @@ export default function FormPurchases() {
             <input
               type="text"
               id="buscador"
-              placeholder="Nombre o código"
+              placeholder="Código del Producto"
               value={codigoBuscar}
               onChange={(e) => setCodigoBuscar(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), agregarProducto())}
@@ -271,6 +298,7 @@ export default function FormPurchases() {
             onChange={(e) => setObservaciones(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             rows={3}
+            placeholder="Cualquier tipo de petición o comentario"
           ></textarea>
         </div>
 

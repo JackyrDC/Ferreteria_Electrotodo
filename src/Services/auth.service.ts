@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosResponse } from "axios";
 import type { Users, CreateUsers } from "../Types/types";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = 'http://localhost:3000';
 
 // Interfaces para las respuestas de la API
 interface LoginResponse {

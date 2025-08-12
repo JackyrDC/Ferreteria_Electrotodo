@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth';
 export type SidebarOption =
   | 'dashboard'
   | 'empleados'
+  | 'usuarios'
   | 'ventas'
   | 'caja'
   | 'ordenCompra'
@@ -25,6 +26,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ activeOption, onSelect })
   const menuItems = [
     { key: 'dashboard' as SidebarOption, label: 'Dashboard', icon: '🏠' },
     { key: 'empleados' as SidebarOption, label: 'Empleados', icon: '👥' },
+    { key: 'usuarios' as SidebarOption, label: 'Usuarios', icon: '👤' },
     { key: 'ventas' as SidebarOption, label: 'Ventas', icon: '💰' },
     { key: 'caja' as SidebarOption, label: 'Caja', icon: '💳' },
     { key: 'ordenCompra' as SidebarOption, label: 'Orden de Compra', icon: '📦' },

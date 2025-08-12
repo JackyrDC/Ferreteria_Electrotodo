@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import { handleApiError, getApiBaseUrl } from "./utils";
+import { handleApiError } from "./utils";
 import type { Producto } from "../Types/types";
 
 // Interfaces para las respuestas de la API (Producto)
@@ -20,7 +20,7 @@ interface ProductsResponse {
 }
 
 // URL de la API
-const apiUrl = getApiBaseUrl();
+const apiUrl = 'http://localhost:3000';
 
 // Función para crear un producto
 export const createProduct = async (productData: FormData): Promise<ProductResponse> => {

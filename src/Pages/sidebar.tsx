@@ -9,13 +9,13 @@ import FormSupplier from '../Components/form_supplier';
 import TableSupplier from '../Components/table_supplier';
 import FormCashRegister from '../Components/form_cashRegister';
 import DataGridCashRegister from '../Components/dataGrid_cashRegister';
-
+import FormPersona from '../Components/form_person'; 
 import CategoryRegister from './CategoryRegister';
 import ProductRegister from './ProductRegister';
 import TableProductosReceiving from '../Components/table_salesProductos';
-
 // Importar el tipo desde el componente SidebarLayout
 import type { SidebarOption } from '../Components/sidebar';
+import FormUsuario from '../Components/formUsers';
 
 export default function SidebarPage() {
   const navigate = useNavigate();
@@ -25,6 +25,8 @@ export default function SidebarPage() {
   // Determinar la opción activa basada en la URL actual
   const getActiveOptionFromPath = (pathname: string): SidebarOption => {
     if (pathname.includes('/categorias')) return 'categorias';
+    if (pathname.includes('/empleados')) return 'empleados';
+    if (pathname.includes('/usuarios')) return 'usuarios';
     if (pathname.includes('/productos')) return 'productos';
     if (pathname.includes('/ventas')) return 'ventas';
     if (pathname.includes('/proveedores')) return 'proveedores';
@@ -66,6 +68,9 @@ export default function SidebarPage() {
         break;
       case 'empleados':
         navigate('/empleados');
+        break;
+      case 'usuarios':
+        navigate('/usuarios');
         break;
       case 'recepcionCompras':
         navigate('/recepcion-compras');
@@ -147,16 +152,20 @@ export default function SidebarPage() {
             <TableProductosReceiving/>
           </div>
         )}
-
-        {/* Módulos no implementados */}
-        {(activeOption === 'empleados' ) && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: '#D71B07' }}>
-              {activeOption.charAt(0).toUpperCase() + activeOption.slice(1)}
-            </h2>
-            <p className="text-gray-600">Este módulo está en desarrollo...</p>
+        {/* Módulo de empleado */}
+        {activeOption === 'empleados' && (
+          <div className="space-y-6">
+            <FormPersona />
           </div>
         )}
+        {/* Módulo de usuario */}
+        {activeOption === 'usuarios' && (
+          <div className="space-y-6">
+            <FormUsuario />
+          </div>
+        )}
+
+        
       </div>
     </div>
   );

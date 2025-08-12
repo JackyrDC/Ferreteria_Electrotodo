@@ -8,6 +8,7 @@ type DetalleCompra = {
   precio_unitario: number;
 };
 
+
 export type PurchaseData = {
   numero_orden: number;
   fecha_emision: string;
@@ -15,7 +16,6 @@ export type PurchaseData = {
   estado: string;
   observaciones: string;
   proveedor_id: number;
-  usuario_id: number;
   detalles: DetalleCompra[];
 };
 

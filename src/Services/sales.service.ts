@@ -9,7 +9,6 @@ type DetalleVenta = {
 
 export type SaleData = {
   numero_factura: string;
-  usuario_id: number;
   fecha: string;
   descuento: number;
   observaciones: string;

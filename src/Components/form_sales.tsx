@@ -17,7 +17,6 @@ export default function FormSales() {
 
   // Campos del formulario
   const [numeroFactura, setNumeroFactura] = useState('');
-  const [usuario_id, setUsuario] = useState('');
   const [fechaEmision, setFechaEmision] = useState('');
   const [descuento, setDescuento] = useState(0);
   const [observaciones, setObservaciones] = useState('');
@@ -98,7 +97,6 @@ export default function FormSales() {
 
     const dataVenta = {
         numero_factura: numeroFactura,
-        usuario_id: parseInt(usuario_id),
         fecha: fechaEmision,
         descuento,
         observaciones,
@@ -115,7 +113,6 @@ export default function FormSales() {
       alert('Venta creada exitosamente!');
       // Reset formulario
       setNumeroFactura('');
-      setUsuario('');
       setFechaEmision('');
       setDescuento(0);
       setObservaciones('');
@@ -148,17 +145,6 @@ export default function FormSales() {
             onChange={(e) => setNumeroFactura(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
             placeholder="Ej. F001-00001234"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-black">Usuario</label>
-          <input
-            type="number"
-            value={usuario_id}
-            onChange={(e) => setUsuario(e.target.value)}
-            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5"
-            placeholder="1"
             required
           />
         </div>
